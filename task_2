@@ -1,0 +1,98 @@
+'''
+Task
+
+To charge your mobile phone battery, do you know how much time it takes from 0% to 100%? It depends on your cell phone battery capacity and the power of the charger. A rough calculation method is:
+
+0% --> 85%  (fast charge)
+(battery capacity(mAh) * 85%) / power of the charger(mA)
+
+85% --> 95% (decreasing charge)
+(battery capacity(mAh) * 10%) / (power of the charger(mA) * 50%)
+
+95% --> 100% (trickle charge)
+(battery capacity(mAh) * 5%) / (power of the charger(mA) * 20%)
+
+For example: Your battery capacity is 1000 mAh and you use a charger 500 mA, to charge your mobile phone battery from 0% to 100% needs time:
+
+0% --> 85%  (fast charge) 1.7 (hour)
+
+85% --> 95% (decreasing charge) 0.4 (hour)
+
+95% --> 100% (trickle charge) 0.5 (hour)
+
+total times = 1.7 + 0.4 + 0.5 = 2.6 (hour)
+
+Complete function calculateTime that accepts two arguments battery and charger, return how many hours can charge the battery from 0% to 100%. The result should be a number, round to 2 decimal places (In Haskell, no need to round it).
+
+'''
+1# Solution
+
+def calculate_time(battery,charger):
+    a1=battery*(0.85/charger)
+    b1=(battery*0.10)/(charger*0.5)
+    c1=(battery*0.05)/(charger*0.2)
+    z=a1+b1+c1
+    return round(z, 2)
+    
+1# Solution
+def calculate_time(battery,charger):
+    return round(battery*0.85/charger+battery*0.1/charger*2+battery*0.05/charger*5,2)
+    
+'''
+В питоне можно округлить до нескольких знаков после запятой, в нашем случае это 2,
+Первый аргумент - само число,
+Второй - до какого знака после запятой надо округлить
+
+Решил усложнить задание, к примеру ко всему вышеперечисленному добавить новый аргумент: количество заряда на батареи сейчас
+На вход подаются 3 значения: 
+a) battery - Объем батареи
+b) charger - Мощность зарядного устройства
+c) change - Уровень заряда
+
+Задача: Рассчитать количество времени необходимое для полной зарядки батареи.
+Выводить результат в формате: "До полного заряда осталось: {}час и {} минуты"
+Это если по той формуле высчитывать:
+
+def change(battery,charger,change):
+    if 0.0<=change<85:
+        a=battery*(0.85-(change*0.0001))/(charger)
+        b=(battery*0.10)/(charger*0.5)
+        c=(battery*0.05)/(charger*0.2)
+        z=a+b+c
+        q=round((z*60)//60 ,2)
+        t=round((z*60)%60 ,2)
+        print('До конца заряда осталось: {} ч. {} мин.'.format(q,t))
+
+    elif 85<=change<95:
+            b1=battery*(0.10-(change*0.0001))/(charger*0.5)
+            print('Это Б!!!',b1)
+            c1=(battery*0.05)/(charger*0.2)
+            print('Это С',c1)
+            h=b1+c1
+            q1=round((h*60)//60 ,2)
+            t1=round((h*60)%60 ,2)
+            print('До конца заряда осталось: {} ч. {} мин.'.format(q1,t1))
+            
+    
+    elif 95<=change<=100:
+        c2=battery*(0.05-(change*0.0001))/(charger*0.2)
+        q2=round((c2*60)//60 ,2)
+        t2=round((c2*60)%60 ,2)
+        print('До конца заряда осталось: {} ч. {} мин.'.format(q2,t2))
+        #return(round(c1, 2))
+        #print('До конца заряда осталось: {} ч. {} мин.'.format((c1*60)//60,(c1*60)%60))
+    else:
+        print('Уровень заряда не должен превышать 100%!!!')
+
+'''
+ Действующие формулы рассчета зависят от нескольких факторов, но общая формула: 
+формула: Тзар=(С/Iзар)*1,2
+
+Где:
+Тзар - время зарядки (ч);
+С - ёмкость аккумулятора (мА/ч);
+Iзар - ток зарядки (мА).
+
+только коэффициент может быть от 1,2 до 1,4 
+'''
+
